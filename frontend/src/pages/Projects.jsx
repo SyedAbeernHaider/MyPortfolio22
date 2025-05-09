@@ -3,7 +3,7 @@
 import React from "react"
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { FaGithub, FaExternalLinkAlt, FaLinkedin, FaWhatsapp } from "react-icons/fa"
+import { FaGithub, FaExternalLinkAlt } from "react-icons/fa"
 
 // Sample project data (in a real app, this would come from your admin panel)
 const projectsData = [
@@ -14,8 +14,7 @@ const projectsData = [
     image: "/placeholder.svg?height=600&width=800",
     tags: ["Full Stack", "React", "Node.js", "MongoDB", "Express"],
     github: "https://github.com/SyedAbeernHaider",
-    linkedin: "https://www.linkedin.com/in/syedabeer12/",
-    whatsapp: "http://Wa.me/+923442550096",
+    demo: "https://your-demo-link.com",
   },
   {
     id: 2,
@@ -24,8 +23,7 @@ const projectsData = [
     image: "/placeholder.svg?height=600&width=800",
     tags: ["Frontend", "React", "TypeScript", "Tailwind"],
     github: "https://github.com/SyedAbeernHaider",
-    linkedin: "https://www.linkedin.com/in/syedabeer12/",
-    whatsapp: "http://Wa.me/+923442550096",
+    demo: "https://your-demo-link.com",
   },
   {
     id: 3,
@@ -34,8 +32,7 @@ const projectsData = [
     image: "/placeholder.svg?height=600&width=800",
     tags: ["Backend", "Node.js", "Express", "MongoDB"],
     github: "https://github.com/SyedAbeernHaider",
-    linkedin: "https://www.linkedin.com/in/syedabeer12/",
-    whatsapp: "http://Wa.me/+923442550096",
+    demo: "https://your-demo-link.com",
   },
   {
     id: 4,
@@ -44,8 +41,7 @@ const projectsData = [
     image: "/placeholder.svg?height=600&width=800",
     tags: ["Full Stack", "React", "Node.js", "Socket.io"],
     github: "https://github.com/SyedAbeernHaider",
-    linkedin: "https://www.linkedin.com/in/syedabeer12/",
-    whatsapp: "http://Wa.me/+923442550096",
+    demo: "https://your-demo-link.com",
   },
 ]
 
@@ -156,22 +152,13 @@ export default function Projects({ isActive }) {
                         <FaGithub size={20} />
                       </a>
                       <a
-                        href={project.linkedin}
+                        href={project.demo}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="p-3 bg-[#233554] rounded-full text-[#64ffda] hover:bg-[#64ffda] hover:text-[#0a192f] transition-all"
-                        title="Connect on LinkedIn"
+                        title="Visit Site"
                       >
-                        <FaLinkedin size={20} />
-                      </a>
-                      <a
-                        href={project.whatsapp}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-3 bg-[#233554] rounded-full text-[#64ffda] hover:bg-[#64ffda] hover:text-[#0a192f] transition-all"
-                        title="Contact on WhatsApp"
-                      >
-                        <FaWhatsapp size={20} />
+                        <FaExternalLinkAlt size={20} />
                       </a>
                     </div>
                   </div>

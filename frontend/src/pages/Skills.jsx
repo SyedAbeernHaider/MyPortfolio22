@@ -134,8 +134,10 @@ export default function Skills({ isActive }) {
                         className="bg-teal-500 h-2.5 rounded-full"
                         style={{
                           width: `${skill.level}%`,
-                          transition: isActive ? "width 1s ease-in-out" : "none",
-                          transitionDelay: `${0.4 + index * 0.1}s`,
+                          transitionProperty: isActive ? 'width' : 'none',
+                          transitionDuration: isActive ? '1s' : '0s',
+                          transitionTimingFunction: 'ease-in-out',
+                          transitionDelay: `${0.4 + index * 0.1}s`
                         }}
                       ></div>
                     </div>
@@ -162,8 +164,10 @@ export default function Skills({ isActive }) {
                         className="bg-teal-500 h-2.5 rounded-full"
                         style={{
                           width: `${skill.level}%`,
-                          transition: isActive ? "width 1s ease-in-out" : "none",
-                          transitionDelay: `${0.4 + index * 0.1}s`,
+                          transitionProperty: isActive ? 'width' : 'none',
+                          transitionDuration: isActive ? '1s' : '0s',
+                          transitionTimingFunction: 'ease-in-out',
+                          transitionDelay: `${0.4 + index * 0.1}s`
                         }}
                       ></div>
                     </div>
@@ -190,8 +194,10 @@ export default function Skills({ isActive }) {
                         className="bg-teal-500 h-2.5 rounded-full"
                         style={{
                           width: `${skill.level}%`,
-                          transition: isActive ? "width 1s ease-in-out" : "none",
-                          transitionDelay: `${0.4 + index * 0.1}s`,
+                          transitionProperty: isActive ? 'width' : 'none',
+                          transitionDuration: isActive ? '1s' : '0s',
+                          transitionTimingFunction: 'ease-in-out',
+                          transitionDelay: `${0.4 + index * 0.1}s`
                         }}
                       ></div>
                     </div>
