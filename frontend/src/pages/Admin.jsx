@@ -48,6 +48,7 @@ export default function Admin() {
   const [editingProject, setEditingProject] = useState(null)
   const [isAdding, setIsAdding] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [token, setToken] = useState(localStorage.getItem('adminToken'))
 
   const [newProject, setNewProject] = useState({
     title: "",
@@ -56,42 +57,36 @@ export default function Admin() {
     tags: [],
     github: "",
     demo: "",
-    category: "Frontend", // Default category
+    category: "Frontend",
   })
 
   const [newTag, setNewTag] = useState("")
 
   // Check authentication and load projects
   useEffect(() => {
-    const username = localStorage.getItem("adminUsername")
-    const password = localStorage.getItem("adminPassword")
-    
-    if (username === "abeer000" && password === "admin@abeer111") {
-      setIsAuthenticated(true)
-      // Load projects from localStorage or initialize with sample data
-      const savedProjects = localStorage.getItem("portfolioProjects")
-      if (savedProjects) {
-        setProjects(JSON.parse(savedProjects))
-      } else {
-        setProjects(initialProjects)
-        localStorage.setItem("portfolioProjects", JSON.stringify(initialProjects))
-      }
-    } else {
-      navigate("/admin-login")
+    const token = localStorage.getItem('adminToken')
+    if (!token) {
+      navigate('/admin-login')
+      return
     }
+
+    setIsAuthenticated(true)
+    fetchProjects()
   }, [navigate])
 
-  // Save projects to localStorage whenever they change
-  useEffect(() => {
-    if (isAuthenticated && projects.length > 0) {
-      localStorage.setItem("portfolioProjects", JSON.stringify(projects))
+  const fetchProjects = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/projects')
+      const data = await response.json()
+      setProjects(data)
+    } catch (error) {
+      console.error('Error fetching projects:', error)
     }
-  }, [projects, isAuthenticated])
+  }
 
   const handleLogout = () => {
-    localStorage.removeItem("adminUsername")
-    localStorage.removeItem("adminPassword")
-    navigate("/admin-login")
+    localStorage.removeItem('adminToken')
+    navigate('/admin-login')
   }
 
   const handleAddProject = () => {
@@ -116,28 +111,64 @@ export default function Admin() {
     setNewTag("")
   }
 
-  const handleDeleteProject = (id) => {
+  const handleDeleteProject = async (id) => {
     if (window.confirm("Are you sure you want to delete this project?")) {
-      setProjects(projects.filter((project) => project.id !== id))
+      try {
+        const response = await fetch(`http://localhost:5000/api/projects/${id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+
+        if (response.ok) {
+          setProjects(projects.filter(project => project._id !== id))
+        } else {
+          const data = await response.json()
+          alert(data.message || 'Error deleting project')
+        }
+      } catch (error) {
+        console.error('Error deleting project:', error)
+        alert('Error deleting project')
+      }
     }
   }
 
-  const handleSaveProject = () => {
-    // Ensure category is included in tags
+  const handleSaveProject = async () => {
     const updatedTags = [...new Set([newProject.category, ...newProject.tags])]
-    
-    if (isAdding) {
-      const newId = Math.max(...projects.map((p) => p.id), 0) + 1
-      setProjects([...projects, { ...newProject, id: newId, tags: updatedTags }])
-    } else {
-      setProjects(
-        projects.map((p) =>
-          p.id === editingProject.id ? { ...newProject, tags: updatedTags } : p
-        )
-      )
+    const projectData = { ...newProject, tags: updatedTags }
+
+    try {
+      const url = isAdding 
+        ? 'http://localhost:5000/api/projects'
+        : `http://localhost:5000/api/projects/${editingProject._id}`
+      
+      const response = await fetch(url, {
+        method: isAdding ? 'POST' : 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(projectData)
+      })
+
+      if (response.ok) {
+        const data = await response.json()
+        if (isAdding) {
+          setProjects([data, ...projects])
+        } else {
+          setProjects(projects.map(p => p._id === data._id ? data : p))
+        }
+        setIsAdding(false)
+        setEditingProject(null)
+      } else {
+        const data = await response.json()
+        alert(data.message || 'Error saving project')
+      }
+    } catch (error) {
+      console.error('Error saving project:', error)
+      alert('Error saving project')
     }
-    setIsAdding(false)
-    setEditingProject(null)
   }
 
   const handleCancelEdit = () => {
@@ -330,12 +361,12 @@ export default function Admin() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {projects.map((project) => (
-              <div key={project.id} className="bg-gray-700 rounded-lg p-4">
-                <div className="aspect-w-16 aspect-h-9 mb-4">
+              <div key={project._id} className="bg-gray-700 rounded-lg p-4">
+                <div className="relative h-[200px] w-full mb-4">
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="rounded-lg object-cover w-full h-full"
+                    className="absolute inset-0 w-full h-full object-cover rounded-lg"
                   />
                 </div>
                 <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
@@ -359,7 +390,7 @@ export default function Admin() {
                     Edit
                   </button>
                   <button
-                    onClick={() => handleDeleteProject(project.id)}
+                    onClick={() => handleDeleteProject(project._id)}
                     className="flex-1 px-3 py-1.5 bg-red-500 text-white rounded hover:bg-red-600 transition-colors flex items-center justify-center"
                   >
                     <FaTrash className="mr-2" />

@@ -5,7 +5,7 @@ import { Suspense } from "react"
 import { Canvas } from "@react-three/fiber"
 import { OrbitControls, Text, Float, Environment } from "@react-three/drei"
 import { motion } from "framer-motion"
-import { FaGithub, FaLinkedin, FaTwitter, FaCode, FaServer, FaDatabase } from "react-icons/fa"
+import { FaGithub, FaLinkedin, FaWhatsapp, FaCode, FaServer, FaDatabase } from "react-icons/fa"
 
 // Enhanced morphing blob with particles
 function MorphingBlob() {
@@ -202,28 +202,28 @@ export default function Home({ isActive }) {
             className="flex justify-center space-x-4 sm:space-x-6 px-4 sm:px-6"
           >
             <a
-              href="https://github.com"
+              href="https://github.com/SyedAbeernHaider"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors transform hover:scale-110"
+              className="text-[#64ffda] hover:text-white transition-colors transform hover:scale-110"
             >
               <FaGithub className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/in/syedabeer12/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors transform hover:scale-110"
+              className="text-[#64ffda] hover:text-white transition-colors transform hover:scale-110"
             >
               <FaLinkedin className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
             </a>
             <a
-              href="https://twitter.com"
+              href="http://Wa.me/+923442550096"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white transition-colors transform hover:scale-110"
+              className="text-[#64ffda] hover:text-white transition-colors transform hover:scale-110"
             >
-              <FaTwitter className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
+              <FaWhatsapp className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
             </a>
           </motion.div>
         </div>

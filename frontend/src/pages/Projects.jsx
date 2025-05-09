@@ -3,7 +3,7 @@
 import React from "react"
 import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
-import { FaGithub, FaExternalLinkAlt } from "react-icons/fa"
+import { FaGithub, FaExternalLinkAlt, FaLinkedin, FaWhatsapp } from "react-icons/fa"
 
 // Sample project data (in a real app, this would come from your admin panel)
 const projectsData = [
@@ -13,8 +13,9 @@ const projectsData = [
     description: "A full-stack e-commerce platform built with React, Node.js, and MongoDB.",
     image: "/placeholder.svg?height=600&width=800",
     tags: ["Full Stack", "React", "Node.js", "MongoDB", "Express"],
-    github: "https://github.com",
-    demo: "https://example.com",
+    github: "https://github.com/SyedAbeernHaider",
+    linkedin: "https://www.linkedin.com/in/syedabeer12/",
+    whatsapp: "http://Wa.me/+923442550096",
   },
   {
     id: 2,
@@ -22,8 +23,9 @@ const projectsData = [
     description: "A frontend task management application with React and TypeScript.",
     image: "/placeholder.svg?height=600&width=800",
     tags: ["Frontend", "React", "TypeScript", "Tailwind"],
-    github: "https://github.com",
-    demo: "https://example.com",
+    github: "https://github.com/SyedAbeernHaider",
+    linkedin: "https://www.linkedin.com/in/syedabeer12/",
+    whatsapp: "http://Wa.me/+923442550096",
   },
   {
     id: 3,
@@ -31,8 +33,9 @@ const projectsData = [
     description: "A RESTful API service built with Node.js and Express.",
     image: "/placeholder.svg?height=600&width=800",
     tags: ["Backend", "Node.js", "Express", "MongoDB"],
-    github: "https://github.com",
-    demo: "https://example.com",
+    github: "https://github.com/SyedAbeernHaider",
+    linkedin: "https://www.linkedin.com/in/syedabeer12/",
+    whatsapp: "http://Wa.me/+923442550096",
   },
   {
     id: 4,
@@ -40,8 +43,9 @@ const projectsData = [
     description: "A full-stack social media platform with real-time features.",
     image: "/placeholder.svg?height=600&width=800",
     tags: ["Full Stack", "React", "Node.js", "Socket.io"],
-    github: "https://github.com",
-    demo: "https://example.com",
+    github: "https://github.com/SyedAbeernHaider",
+    linkedin: "https://www.linkedin.com/in/syedabeer12/",
+    whatsapp: "http://Wa.me/+923442550096",
   },
 ]
 
@@ -50,20 +54,23 @@ export default function Projects({ isActive }) {
   const [filter, setFilter] = useState("All")
   const [loading, setLoading] = useState(true)
 
-  // Load projects from localStorage
+  // Load projects from API
   useEffect(() => {
     if (isActive) {
-      const savedProjects = localStorage.getItem("portfolioProjects")
-      if (savedProjects) {
-        setProjects(JSON.parse(savedProjects))
-      } else {
-        setProjects(projectsData) // Fallback to sample data if no saved projects
-      }
-      setLoading(false)
+      fetch('/api/projects')
+        .then(response => response.json())
+        .then(data => {
+          setProjects(data);
+          setLoading(false);
+        })
+        .catch(error => {
+          console.error('Error fetching projects:', error);
+          setLoading(false);
+        });
     } else {
-      setLoading(true)
+      setLoading(true);
     }
-  }, [isActive])
+  }, [isActive]);
 
   const filters = ["All", "Frontend", "Backend", "Full Stack"]
 
@@ -96,8 +103,8 @@ export default function Projects({ isActive }) {
           transition={{ duration: 0.8 }}
           className="text-center mb-12"
         >
-          <h2 className="text-4xl font-bold mb-2">My Projects</h2>
-          <div className="w-20 h-1 bg-teal-500 mx-auto"></div>
+          <h2 className="text-4xl font-bold mb-2 text-[#64ffda]">My Projects</h2>
+          <div className="w-20 h-1 bg-[#64ffda] mx-auto"></div>
         </motion.div>
 
         <motion.div
@@ -110,7 +117,9 @@ export default function Projects({ isActive }) {
             <button
               key={index}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                filter === item ? "bg-teal-500 text-white" : "bg-gray-800 text-gray-300 hover:bg-gray-700"
+                filter === item 
+                  ? "bg-[#64ffda]/10 text-[#64ffda] border border-[#64ffda]" 
+                  : "bg-[#112240] text-[#8892b0] hover:bg-[#233554]"
               }`}
               onClick={() => setFilter(item)}
             >
@@ -119,50 +128,67 @@ export default function Projects({ isActive }) {
           ))}
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredProjects.map((project, index) => (
             <motion.div
               key={project.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: isActive ? 1 : 0, y: isActive ? 0 : 20 }}
               transition={{ duration: 0.8, delay: 0.4 + index * 0.1 }}
-              className="bg-gray-800 rounded-lg overflow-hidden shadow-lg h-[420px] flex flex-col"
+              className="bg-[#112240] rounded-xl overflow-hidden shadow-xl group hover:shadow-2xl transition-all duration-300 flex flex-col"
             >
-              <div className="relative overflow-hidden group h-48">
-                <img
-                  src={project.image || "/placeholder.svg"}
-                  alt={project.title}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <div className="flex space-x-4">
-                    <a
-                      href={project.github}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-3 bg-gray-900 rounded-full text-white hover:bg-teal-500 transition-colors"
-                    >
-                      <FaGithub size={20} />
-                    </a>
-                    <a
-                      href={project.demo}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-3 bg-gray-900 rounded-full text-white hover:bg-teal-500 transition-colors"
-                    >
-                      <FaExternalLinkAlt size={20} />
-                    </a>
+              <div className="relative w-full" style={{ paddingBottom: '56.25%' }}> {/* 16:9 Aspect Ratio */}
+                <div className="absolute inset-0">
+                  <img
+                    src={project.image || "/placeholder.svg"}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-[#0a192f]/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                    <div className="flex space-x-4">
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 bg-[#233554] rounded-full text-[#64ffda] hover:bg-[#64ffda] hover:text-[#0a192f] transition-all"
+                        title="View on GitHub"
+                      >
+                        <FaGithub size={20} />
+                      </a>
+                      <a
+                        href={project.linkedin}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 bg-[#233554] rounded-full text-[#64ffda] hover:bg-[#64ffda] hover:text-[#0a192f] transition-all"
+                        title="Connect on LinkedIn"
+                      >
+                        <FaLinkedin size={20} />
+                      </a>
+                      <a
+                        href={project.whatsapp}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 bg-[#233554] rounded-full text-[#64ffda] hover:bg-[#64ffda] hover:text-[#0a192f] transition-all"
+                        title="Contact on WhatsApp"
+                      >
+                        <FaWhatsapp size={20} />
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="p-5 flex flex-col flex-grow">
-                <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
-                <p className="text-gray-400 text-sm mb-4 flex-grow">{project.description}</p>
-                <div className="flex flex-wrap gap-2">
+              <div className="p-6 flex flex-col flex-grow">
+                <h3 className="text-xl font-semibold mb-3 text-[#ccd6f6] group-hover:text-[#64ffda] transition-colors">
+                  {project.title}
+                </h3>
+                <p className="text-[#8892b0] text-sm mb-4 line-clamp-3">
+                  {project.description}
+                </p>
+                <div className="flex flex-wrap gap-2 mt-auto">
                   {project.tags.map((tag, tagIndex) => (
                     <span
                       key={tagIndex}
-                      className="px-2 py-1 bg-gray-700 rounded-full text-xs font-medium text-gray-300"
+                      className="px-3 py-1 bg-[#233554] rounded-full text-xs font-medium text-[#64ffda]"
                     >
                       {tag}
                     </span>
