@@ -5,6 +5,7 @@ const dotenv = require('dotenv');
 const projectRoutes = require('./routes/projectRoutes');
 const authRoutes = require('./routes/authRoutes');
 const contactRoutes = require('./routes/contactRoutes');
+const path = require('path');
 
 dotenv.config();
 
@@ -28,10 +29,10 @@ app.use('/api/auth', authRoutes);
 app.use('/api/contact', contactRoutes);
 
 // Error handling middleware
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Something went wrong!' });
-});
+app.get("/", (req, res) => {
+  app.use(express.static(path.resolve(__dirname, "frontend", "dist")));
+  res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
+})
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

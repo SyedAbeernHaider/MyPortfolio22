@@ -1,35 +1,14 @@
 {
-  "version": 2,
   "builds": [
     {
-      "src": "frontend/package.json",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "dist"
-      }
-    },
-    {
-      "src": "server.js",
+      "src": "./server.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "/.",
       "dest": "server.js"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "frontend/dist/$1"
     }
-  ],
-  "env": {
-    "MONGODB_URI": "@MONGODB_URI",
-    "JWT_SECRET": "@JWT_SECRET",
-    "ADMIN_USERNAME": "@ADMIN_USERNAME",
-    "ADMIN_PASSWORD": "@ADMIN_PASSWORD",
-    "EMAIL_USER": "@EMAIL_USER",
-    "EMAIL_PASS": "@EMAIL_PASS"
-  }
+  ]
 }
-
