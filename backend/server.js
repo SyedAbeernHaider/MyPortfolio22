@@ -23,8 +23,9 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/portfolio
 
 // Routes|
 
+app.use(express.static(path.resolve(__dirname, "frontend", "dist")));
+
 app.get("/", (req, res) => {
-  app.use(express.static(path.resolve(__dirname, "frontend", "dist")));
   res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
 })
 
