@@ -16,7 +16,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection
-const MONGODB_URI = process.env.MONGODB_URI;
+const MONGODB_URI = process.env.MONGODB_URL;
 
 if (!MONGODB_URI) {
   console.error('MONGODB_URI environment variable not set');
