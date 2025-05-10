@@ -20,10 +20,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "frontend/dist/index.html",
-      "headers": {
-        "Cache-Control": "s-maxage=31536000, immutable"
-      }
+      "dest": "/$1"
     }
   ]
 }
